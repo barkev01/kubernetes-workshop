@@ -38,7 +38,7 @@ Once the new shell starts, type those four commands again:
 
 [source, bash]
 ----
-$ docker run --interactive --tty registry.access.redhat.com/ubi8/ubi-minimal /bin/sh
+$ docker run --interactive --tty registry.access.redhat.com/ubi9/ubi-minimal /bin/sh
 sh-4.4# df
 sh-4.4# pwd
 sh-4.4# echo $HOSTNAME
@@ -56,9 +56,9 @@ Compare the output in your terminal to the output from the container, and you'll
 [NOTE]
 ====
 Look at the image url.
-`registry.access.redhat.com/ubi8/ubi-minimal` is the full url.
+`registry.access.redhat.com/ubi9/ubi-minimal` is the full url.
 `registry.access.redhat.com` is the registry.
-`ubi8/ubi-minimal` is the name of the image, with `ubi8` being the _namespace_.
+`ubi9/ubi-minimal` is the name of the image, with `ubi9` being the _namespace_.
 In this URL we omitted the label/tag. 
 It will pull the `latest` tag if not specified.
 ====
@@ -71,7 +71,7 @@ Now that you've got the image cached locally, try running another container:
 
 [source, bash]
 ----
-$ docker run --interactive --tty registry.access.redhat.com/ubi8/ubi-minimal /bin/sh
+$ docker run --interactive --tty registry.access.redhat.com/ubi9/ubi-minimal /bin/sh
 sh-4.4# echo hello world
 sh-4.4# exit
 ----
@@ -90,7 +90,7 @@ Start a container and write some data to a file.
 
 [source, bash]
 ----
-$ docker run -it registry.access.redhat.com/ubi8/ubi-minimal /bin/sh
+$ docker run -it registry.access.redhat.com/ubi9/ubi-minimal /bin/sh
 sh-4.4# echo hello > /tmp/hello.txt
 sh-4.4# cat /tmp/hello.txt
 hello
@@ -111,7 +111,7 @@ It also should not exist:
 
 [source, bash]
 ----
-$ docker run -it registry.access.redhat.com/ubi8/ubi-minimal /bin/sh
+$ docker run -it registry.access.redhat.com/ubi9/ubi-minimal /bin/sh
 sh-4.4# cat /tmp/hello.txt
 
 cat: /tmp/hello.txt: No such file or directory
@@ -126,14 +126,14 @@ You can pass command-line arguments to the process the container runs:
 
 [source, bash]
 ----
-$ docker run -it registry.access.redhat.com/ubi8/ubi-minimal echo hello world
+$ docker run -it registry.access.redhat.com/ubi9/ubi-minimal echo hello world
 ----
 
 Set environment variables:
 
 [source, bash]
 ----
-$ docker run -i -t -e HELLO=world registry.access.redhat.com/ubi8/ubi-minimal /bin/sh
+$ docker run -i -t -e HELLO=world registry.access.redhat.com/ubi9/ubi-minimal /bin/sh
 sh-4.4# echo $HELLO
 ----
 
@@ -141,7 +141,7 @@ Mount a directory from your machine into the container:
 
 [source, bash]
 ----
-$ docker run -i -t -v $PWD:/host registry.access.redhat.com/ubi8/ubi-minimal ls /host
+$ docker run -i -t -v $PWD:/host registry.access.redhat.com/ubi9/ubi-minimal ls /host
 ----
 
 You can look at the options described in the https://docs.docker.com/engine/reference/run/[Docker run documentation] to see more ways you can control the container.
@@ -170,12 +170,12 @@ $ docker images
 
 === Where images come from
 
-When you ran `docker run registry.access.redhat.com/ubi8/ubi-minimal` Docker checked if the image was available locally.
+When you ran `docker run registry.access.redhat.com/ubi9/ubi-minimal` Docker checked if the image was available locally.
 If it wasn't available locally, Docker downloads from a remote *image registry*.
 The default image registry is the [Docker Hub](https://hub.docker.com), which has many pre-existing images available.
 However, in our case, we download the image from another registry: `registry.access.redhat`.
 
-You can check https://catalog.redhat.com/software/containers/ubi8/ubi-minimal/5c359a62bed8bd75a2c3fba8[the image page] to have all the details you need on the content of that image (Security index, packages...).
+You can check https://catalog.redhat.com/en/software/containers/ubi9/ubi-minimal/615bd9b4075b022acc111bf5[the image page] to have all the details you need on the content of that image (Security index, packages...).
 
 === Tags: versioning images
 
@@ -185,11 +185,11 @@ Each tag is a different version of the image.
 NOTE: unlike a source repository, image tags can be modified.
 
 When you do `docker run`, you can specify a particular version of the image to load.
-For example, here you download and then run version 8.3 of the `ubi-minimal` image:
+For example, here you download and then run version 9.7 of the `ubi-minimal` image:
 
 [source, bash]
 ----
-$ docker run registry.access.redhat.com/ubi8/ubi-minimal:8.5 cat /etc/redhat-release
+$ docker run registry.access.redhat.com/ubi9/ubi-minimal:9.7 cat /etc/redhat-release
 ----
 
 If you don't specify a tag then `latest` is used.
@@ -201,7 +201,7 @@ In general, do not use `latest`.
 
 You can create your own images, and almost always, you'll want to base your images on an existing one.
 Most Linux distributions provide base images on the Docker Hub so that you can use Ubuntu or CentOS as base images.
-We'll be building on the `registry.access.redhat.com/ubi8/ubi-minimal` image because it's been tailored for containers.
+We'll be building on the `registry.access.redhat.com/ubi9/ubi-minimal` image because it's been tailored for containers.
 
 In a new directory create a file called `HelloWorld.java` with the following contents:
 
@@ -223,11 +223,11 @@ In the same directory, create a file called `Dockerfile` with the following cont
 
 [source, dockerfile]
 ----
-FROM registry.access.redhat.com/ubi8/ubi-minimal:8.5
+FROM registry.access.redhat.com/ubi9/ubi-minimal:9.7
 # Run a command inside the container as we build.
 # In this case, install java and jbang:
 # Notice how we chain commands to avoid creating multiple intermediate layers
-RUN microdnf install java-11-openjdk-devel unzip  \
+RUN microdnf install -y java-21-openjdk-devel unzip  \
   && curl -Ls "https://github.com/jbangdev/jbang/releases/download/v0.97.0/jbang-0.97.0.zip" --output jbang.zip \
   && unzip jbang.zip && rm jbang.zip && mv jbang-* jbang && chmod +x jbang/bin/jbang
 
@@ -356,8 +356,8 @@ Try run the following images:
 
 [source, bash]
 ----
-$ docker run -it --entrypoint=bash quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:22.1.0-java17-arm64
-$ docker run -it --entrypoint=bash quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:22.1.0-java17-amd64
+$ docker run -it --entrypoint=bash quay.io/quarkus/ubi9-quarkus-graalvmce-builder-image:jdk-21.0.2-arm64
+$ docker run -it --entrypoint=bash quay.io/quarkus/ubi9-quarkus-graalvmce-builder-image:jdk-21.0.2-amd64
 ----
 
 What can you observe?
@@ -375,7 +375,7 @@ Run:
 
 [source, bash]
 ----
-$ docker run -it --entrypoint=bash quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:22.1.0-java17
+$ docker run -it --entrypoint=bash quay.io/quarkus/ubi9-quarkus-graalvmce-builder-image:jdk-21.0.2
 ----
 
 It automatically picks the image for your architecture.
@@ -384,7 +384,7 @@ Look at the manifest using:
 
 [source, bash]
 ----
-$ docker manifest inspect quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:22.1.0-java17
+$ docker manifest inspect quay.io/quarkus/ubi9-quarkus-graalvmce-builder-image:jdk-21.0.2
 ----
 
 You can see that this manifest provides images for amd64 and arm64.
@@ -394,10 +394,10 @@ Create a manifest using:
 [source, bash]
 ----
 $ docker manifest create quay.io/cescoffier/my-manifest:1.0 \
-    quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:22.1.0-java17-arm64 \
-    quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:22.1.0-java17-amd64
-$ docker manifest annotate quay.io/cescoffier/my-manifest:1.0 quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:22.1.0-java17-amd64 --arch amd64
-$ docker manifest annotate quay.io/cescoffier/my-manifest:1.0 quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:22.1.0-java17-arm64 --arch arm64
+    quay.io/quarkus/ubi9-quarkus-graalvmce-builder-image:jdk-21.0.2-arm64 \
+    quay.io/quarkus/ubi9-quarkus-graalvmce-builder-image:jdk-21.0.2-amd64
+$ docker manifest annotate quay.io/cescoffier/my-manifest:1.0 quay.io/quarkus/ubi9-quarkus-graalvmce-builder-image:jdk-21.0.2-amd64 --arch amd64
+$ docker manifest annotate quay.io/cescoffier/my-manifest:1.0 quay.io/quarkus/ubi9-quarkus-graalvmce-builder-image:jdk-21.0.2-arm64 --arch arm64
 $  docker manifest inspect quay.io/cescoffier/my-manifest:1.0
 ----
 

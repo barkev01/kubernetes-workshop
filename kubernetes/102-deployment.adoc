@@ -3,15 +3,15 @@
 The interactive shell container is useful for test situations, but that is not what Kubernetes excels at.
 Kubernetes is great at running stateless web services and apps for long periods.
 
-IMPORTANT: We are going to deploy images using Java 17. Make sure your installed JDK is Java 17:
+IMPORTANT: We are going to deploy images using Java 21. Make sure your installed JDK is Java 21:
 [source, bash]
 ----
 $ java --version
-openjdk 17.0.4 2022-07-19
-OpenJDK Runtime Environment Temurin-17.0.4+8 (build 17.0.4+8)
-OpenJDK 64-Bit Server VM Temurin-17.0.4+8 (build 17.0.4+8, mixed mode)
+openjdk 21.0.5 2024-10-15
+OpenJDK Runtime Environment OpenLogic-OpenJDK (build 21.0.5+11-adhoc.Administrator.jdk21u)
+OpenJDK 64-Bit Server VM OpenLogic-OpenJDK (build 21.0.5+11-adhoc.Administrator.jdk21u, mixed mode, sharing)
 $ javac --version
-javac 17.0.4
+javac 21.0.5
 ----
 
 == Deploying the first application
@@ -378,7 +378,7 @@ Edit the `pom.xml` file and add the following dependencies:
 ----
 <dependency>
   <groupId>io.quarkus</groupId>
-  <artifactId>quarkus-rest-client-reactive-jackson</artifactId>
+  <artifactId>quarkus-rest-client-jackson</artifactId>
 </dependency>
 ----
 
@@ -391,10 +391,10 @@ package me.escoffier.workshop;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 @RegisterRestClient(configKey = "second-service")
 @Produces(MediaType.TEXT_PLAIN)
@@ -423,11 +423,11 @@ package me.escoffier.workshop;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 import java.util.Calendar;
 import java.text.SimpleDateFormat;

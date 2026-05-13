@@ -115,11 +115,11 @@ In this section, you will learn how to run a straightforward container that give
 
 === Running an interactive console terminal on the cluster
 
-On your computer, run the following command using the `kubectl` command-line tool. In particular, you're going to start a new shell inside a container running `registry.access.redhat.com/ubi8/ubi-minimal` just like you did in the earlier Docker workshop.
+On your computer, run the following command using the `kubectl` command-line tool. In particular, you're going to start a new shell inside a container running `registry.access.redhat.com/ubi9/ubi-minimal` just like you did in the earlier Docker workshop.
 
 [source, bash]
 ----
-$ kubectl run my-shell --rm -it --image registry.access.redhat.com/ubi8/ubi-minimal -- /bin/sh
+$ kubectl run my-shell --rm -it --image registry.access.redhat.com/ubi9/ubi-minimal -- /bin/sh
 
 sh-4.4# df
 sh-4.4# pwd
@@ -130,7 +130,7 @@ In another terminal, run a nearly identical command.
 
 [source, bash]
 ----
-$ kubectl run my-other-shell --rm -it --image registry.access.redhat.com/ubi8/ubi-minimal -- /bin/sh
+$ kubectl run my-other-shell --rm -it --image registry.access.redhat.com/ubi9/ubi-minimal -- /bin/sh
 
 sh-4.4# df
 sh-4.4# pwd
@@ -163,7 +163,7 @@ Set some environment variables:
 
 [source, bash]
 ----
-$ kubectl run vars --rm -it --env FOOBAR=BAZBOT --env HELLO=WORLD --image registry.access.redhat.com/ubi8/ubi-minimal -- /bin/sh
+$ kubectl run vars --rm -it --env FOOBAR=BAZBOT --env HELLO=WORLD --image registry.access.redhat.com/ubi9/ubi-minimal -- /bin/sh
 sh-4.4# echo $HELLO
 WORLD
 ----

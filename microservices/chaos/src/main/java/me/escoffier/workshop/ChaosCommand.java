@@ -8,7 +8,7 @@ import org.jboss.logging.Logger;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.List;
 
 @Command(name = "chaos", mixinStandardHelpOptions = true)
